@@ -295,7 +295,7 @@ $request = \Config\Services::request();
                     Swal.fire("Tes selesai", "Terima kasih", "success")
                     .then(() => {
                         window.location.href =
-                        "<?= base_url() ?>/tryout/hasiltryout/<?= $request->uri->getSegment(3) ?>/<?= $request->uri->getSegment(4) ?>";
+                        "<?= base_url() ?>/pauli/hasiltryout/<?= $request->uri->getSegment(3) ?>/<?= $request->uri->getSegment(4) ?>";
                     });
                     return;
                 }
@@ -314,9 +314,6 @@ $request = \Config\Services::request();
                 if (data.ret === "soal_tidak_ada") {
                     alert("Soal tidak ada");
                 }
-
-                
-                // $(".tombol_kreplin").prop("disabled", false);
             },
             error: function(e) {
                 alert(e.responseText);

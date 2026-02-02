@@ -29,34 +29,16 @@
                     </div>
                     <div class="col-md-12">
                             <?php
-                                $this->session = \Config\Services::session();
-                                $user_id = $this->session->user_id;
-                                $db = db_connect();
                                 foreach ($group as $key) {
-                                    $query = $db->query("SELECT * FROM respon WHERE materi = $materi_id AND group_id = $key->group_soal_id AND created_user_id = $user_id AND status_cd = 'finish'")->getResultArray();
-                                    
-                                        if (count($query)>0) {
-                                                $click = "";
-                                                $class_bg = "bg-green";
-                                                $a_bg = "bg-green";
-                                                $icon= "fa-check";
-                                                $text= "Selesai";
-                                        } else {
-                                            $click = "onclick='showtoken(".$key->group_soal_id.", ".$materi_id.")'";
-                                            $class_bg = "bg-gray";
-                                            $a_bg = "bg-blue";
-                                            $icon= "fa-arrow-circle-right";
-                                            $text= "Mulai";
-                                        }
                             ?>
                             <div class="col-lg-6">
-                                <div class="small-box <?= $class_bg ?>" style="border-radius:10px;">
+                                <div class="small-box bg-gray" style="border-radius:10px;">
                                     <div class="inner text-center">
                                         <h3><?= $key->group_nm ?></h3>
                                     </div>
                                        
-                                        <a <?= $click ?> href="#" class="btn small-box-footer <?= $a_bg ?>" style="color:black;font-size:16px;">
-                                        <?= $text ?> <i class="fa <?= $icon ?>"></i>
+                                        <a onclick='showtoken(<?= $key->group_soal_id ?>, <?= $materi_id ?>)' href="#" class="btn small-box-footer bg-blue" style="color:black;font-size:16px;">
+                                        Mulai <i class="fa fa-arrow-circle-right"></i>
                                         </a>
                                 </div>
                             </div>
@@ -67,69 +49,7 @@
                 
             </div>
         </div>
-                <div class="modal fade" id="modal-token">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-header bg-blue">
-                                <!-- <h4>Masukkan Token</h4> -->
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div id="modal_body" class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="token">Token</label>
-                                                <input class="form-control" type="text" name="token" id="token" placeholder="Masukkan Token" maxlength="6" minlength="6">
-                                                <input class="form-control" type="hidden" name="group_idx" id="group_idx">
-                                                <input class="form-control" type="hidden" name="materi_id" id="materi_id">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <button style="margin-top: 25px;" class="btn btn-primary" type="button" onclick="checktoken()">Next</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="modal fade" id="modal-noTest">
-                    <div class="modal-dialog modal-md">
-                        <div class="modal-content">
-                            <div class="modal-header bg-blue">
-                                <!-- <h4>Masukkan Token</h4> -->
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div id="modal_body" class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="token">Nomor Test</label>
-                                                <input class="form-control" type="text" name="notest" id="notest" placeholder="Masukkan No Test Anda" maxlength="6" minlength="6">
-                                                <input class="form-control" type="hidden" name="group_id_notest" id="group_id_notest">
-                                                <input class="form-control" type="hidden" name="materi_id_notest" id="materi_id_notest">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <button style="margin-top: 25px;" class="btn btn-primary" type="button" onclick="InsertNoTest()">Submit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
         <?= $this->include('front/footer') ?>
     </div>
     <script src="<?= base_url() ?>/bower_components/jquery/dist/jquery.min.js"></script>
@@ -139,10 +59,7 @@
     <script src="<?= base_url() ?>/dist/js/adminlte.min.js"></script>
     <script>
         function showtoken(group_id, materi_id) {
-            $("#token").val("");
-            $("#group_idx").val(group_id);
-            $("#materi_id").val(materi_id);
-            $("#modal-token").modal("show");
+            window.location.href = "<?= base_url() ?>/pauli/petunjukpauli/"+materi_id+"/"+group_id;
         }
 
         function checktoken() {

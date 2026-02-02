@@ -2,89 +2,60 @@
 $request = \Config\Services::request();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hasil Pauli Kreplin</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="<?= base_url() ?>/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="<?= base_url() ?>/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?= base_url() ?>/dist/dist/css/adminlte.min.css">
   <link rel="icon" href="../../../../../images/bg/favicon.ico" type="image/gif">
-  <link rel="stylesheet" href="<?= base_url() ?>/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/bower_components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/custom.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>/plugins/sweetalert2/sweetalert2.css">
 
   <style>
     .chart-wrapper {
-        max-width: 800px;   /* atur sesuai kebutuhan */
-        height: 350px;
-        margin: 40px auto;  /* INI YANG MEMUSATKAN */
-    }
+    max-width: 900px;   /* atur sesuai kebutuhan */
+    height: 400px;
+    margin: 40px auto;  /* INI YANG MEMUSATKAN */
+}
 
-    .chart-wrapper canvas {
-        width: 100% !important;
-        height: 100% !important;
-        display: block;
-    }
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
 
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-    .switch input { display:none; }
 
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        inset: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 24px;
-    }
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 18px;
-        width: 18px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-    input:checked + .slider {
-        background-color: #2563eb;
-    }
-    input:checked + .slider:before {
-        transform: translateX(26px);
-    }
   </style>
 </head>
-
-<body class="hold-transition skin-blue layout-top-nav">
-    <div class="wrapper">
-        <header class="main-header">
-            <?= $this->include('front/navbar') ?>
-        </header>
-        <div class="content-wrapper">
-            <div class="content">
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+  <?= $this->include('admin/navbar') ?>
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          
+          </div>
+          <div class="col-sm-6">
+        
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <div class="box" id="dv_print">
-                <div class="box-body">
+            <div class="card" id="dv_print">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="text-center"><h2>HASIL PENILAIAN</h2></div>
                             <hr> 
-                            <div class="box">
-                                <div class="box-body">
+                            <div class="card">
+                                <div class="card-body">
                                     <div class="row col-md-12">
                                         <div class="col-md-6">
                                             <table border="0">
@@ -111,8 +82,8 @@ $request = \Config\Services::request();
                                 </div>
                             </div>
                                 <hr>
-                            <div class="box">
-                                <div class="box-body">
+                            <div class="card">
+                                <div class="card-body">
 
                                     <div class="row"><!-- ROW WAJIB -->
 
@@ -180,8 +151,8 @@ $request = \Config\Services::request();
 
                                 </div>
                             </div>
-                            <div class="box">
-                                <div class="box-body">
+                            <div class="card">
+                                <div class="card-body">
 
                                     <div class="row"><!-- ROW WAJIB -->
 
@@ -250,67 +221,54 @@ $request = \Config\Services::request();
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="col-md-12">
-                        <div class="col-md-12 d-flex justify-content-center align-items-center mb-3 gap-3">
-                            <label style="font-weight:bold; margin-right:10px;">
-                                Mode Grafik:
-                            </label>
-
-                            <label class="switch mb-0">
-                                <input type="checkbox" id="toggleMode" checked>
-                                <span class="slider"></span>
-                            </label>
-
-                            <span id="modeLabel" style="margin-left: 10px;">
-                                Per 3 Kolom
-                            </span>
-
-                        </div>
-
-                        <div class="box">
-                            <div class="box-body">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="row">
-                                    <div class="row col-md-12">
-                                        <div class="col-md-6">
-                                            <div class="chart-wrapper">
-                                                <div class="text-center"><h3>Lembar 1</h3></div>
-                                                <canvas id="chart_sk_1"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="chart-wrapper">
-                                                <div class="text-center"><h3>Lembar 2</h3></div>
-                                                <canvas id="chart_sk_2"></canvas>
-                                            </div>
+                                    <div class="col-md-12">
+                                        <div class="chart-wrapper">
+                                            <div class="text-center"><h3>Lembar 1</h3></div>
+                                            <canvas id="chart_sk_1"></canvas>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="box">
-                            <div class="box-body">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="row">
-                                    <div class="row col-md-12">
-                                        <div class="col-md-6">
-                                            <div class="chart-wrapper">
-                                                <div class="text-center"><h3>Lembar 3</h3></div>
-                                                <canvas id="chart_sk_3"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="chart-wrapper">
-                                                <div class="text-center"><h3>Lembar 4</h3></div>
-                                                <canvas id="chart_sk_4"></canvas>
-                                            </div>
+                                    <div class="col-md-12">
+                                        <div class="chart-wrapper">
+                                            <div class="text-center"><h3>Lembar 2</h3></div>
+                                            <canvas id="chart_sk_2"></canvas>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="chart-wrapper">
+                                            <div class="text-center"><h3>Lembar 3</h3></div>
+                                            <canvas id="chart_sk_3"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="chart-wrapper">
+                                            <div class="text-center"><h3>Lembar 4</h3></div>
+                                            <canvas id="chart_sk_4"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>s
                     </div>
                 </div>
             </div>
@@ -318,121 +276,89 @@ $request = \Config\Services::request();
         </div>
       </div><!-- /.container-fluid -->
     </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="<?= base_url() ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url() ?>/dist/dist/js/adminlte.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const chartInstances = {};
     const hasil = <?= json_encode($hasil) ?>;
-    function buildLabelPer3Kolom(dataSk) {
-        const labels = [];
 
-        for (let i = 0; i < dataSk.length; i += 3) {
-            const start = dataSk[i].kolom_nm;
-            const end   = dataSk[Math.min(i + 2, dataSk.length - 1)].kolom_nm;
-            labels.push(`${start}–${end} ●`);
+    function buildCharts() {
+        for (let sk_group_id = 1; sk_group_id <= 4; sk_group_id++) {
+
+            const dataSk = hasil[sk_group_id];
+            if (!dataSk) continue;
+
+            // 👇 GROUP PER 3 KOLOM
+            const grouped = groupTerjawabPer3Kolom(dataSk);
+
+            const ctx = document
+                .getElementById('chart_sk_' + sk_group_id)
+                .getContext('2d');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: grouped.labels,
+                    datasets: [{
+                        label: 'Terjawab',
+                        data: grouped.values,
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 60,
+                            ticks: {
+                                stepSize: 10
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
         }
-
-        return labels;
     }
 
-    function buildDataPer3Kolom(dataSk) {
+    buildCharts();
+
+    function groupTerjawabPer3Kolom(dataSk) {
+        const labels = [];
         const values = [];
 
         for (let i = 0; i < dataSk.length; i += 3) {
             const chunk = dataSk.slice(i, i + 3);
-            values.push(
-                chunk.reduce((s, x) => s + parseInt(x.terjawab), 0)
+
+            // Label: Kolom 1 - Kolom 3
+            const label = chunk.length > 1
+                ? chunk[0].kolom_nm + ' - ' + chunk[chunk.length - 1].kolom_nm
+                : chunk[0].kolom_nm;
+
+            // Jumlah terjawab
+            const totalTerjawab = chunk.reduce(
+                (sum, item) => sum + parseInt(item.terjawab),
+                0
             );
+
+            labels.push(label);
+            values.push(totalTerjawab);
         }
 
-        return values;
+        return { labels, values };
     }
 
-    function renderChart(sk_group_id, mode = 'group') {
-
-        const dataSk = hasil[sk_group_id];
-        if (!dataSk) return;
-
-        const ctx = document
-            .getElementById('chart_sk_' + sk_group_id)
-            .getContext('2d');
-
-        // destroy jika sudah ada
-        if (chartInstances[sk_group_id]) {
-            chartInstances[sk_group_id].destroy();
-        }
-
-        let labels, datasets;
-
-        if (mode === 'group') {
-            labels = buildLabelPer3Kolom(dataSk);
-            datasets = [{
-                label: 'Terjawab per 3 Kolom',
-                data: buildDataPer3Kolom(dataSk),
-                borderWidth: 3,
-                tension: 0.3
-            }];
-        } else {
-            labels = dataSk.map(i => i.kolom_nm);
-            datasets = [{
-                label: 'Terjawab per Kolom',
-                data: dataSk.map(i => parseInt(i.terjawab)),
-                borderWidth: 2,
-                tension: 0.3
-            }];
-        }
-
-        chartInstances[sk_group_id] = new Chart(ctx, {
-            type: 'line',
-            data: { labels, datasets },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        min: 0,
-                        max: 60
-                    }
-                },
-                plugins: {
-                    legend: {
-                        onClick: (e, legendItem) => {
-                            const nextMode =
-                                legendItem.text.includes('3')
-                                    ? 'group'
-                                    : 'detail';
-
-                            renderChart(sk_group_id, nextMode);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    for (let i = 1; i <= 4; i++) {
-        renderChart(i, 'group'); // default per 3 kolom
-    }
-
-
-    document.getElementById('toggleMode').addEventListener('change', function () {
-
-        const mode = this.checked ? 'group' : 'detail';
-
-        document.getElementById('modeLabel').innerText =
-            mode === 'group'
-                ? 'Per 3 Kolom'
-                : 'Detail Per Kolom';
-
-        for (let i = 1; i <= 4; i++) {
-            renderChart(i, mode);
-        }
-    });
-
-</script>
+    </script>
 </body>
 </html>

@@ -117,8 +117,6 @@ class Hasil extends BaseController
             "hasil" => $hasil,
             "notest" => $notestpeserta
         ];
-
-        // echo json_encode($data); exit;
         
         return view('admin/hasil/pauli/hasilpauli',$data);
     }

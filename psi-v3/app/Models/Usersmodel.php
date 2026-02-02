@@ -451,26 +451,58 @@ class Usersmodel extends Model
         ->get();
 }
 
+    public function getHasilPauliByUserUsed($user_id, $sk_group_id, $materi_id, $used)
+    {
+        // subquery respon (AMAN, tanpa string ON JOIN)
+        $responSub = $this->db->table('respon')
+            ->select('respon_id, soal_id, pilihan_nm')
+            ->where('created_user_id', $user_id)
+            ->where('used', $used)
+            // ->where('materi', $materi_id)
+            ->where('status_cd', 'finish')
+            ->getCompiledSelect();
 
+        return $this->db->table('kolom_pauli k')
+            ->select([
+                'k.kolom_id', 'k.kolom_nm',
 
+                'COUNT(c.soal_id) AS total_soal',
 
+                'COALESCE(SUM(CASE 
+                    WHEN r.pilihan_nm IS NOT NULL AND r.pilihan_nm <> "" 
+                    THEN 1 ELSE 0 
+                END),0) AS terjawab',
 
-    // public function getHasilPauliByUser($start_dttm,$end_dttm,$user_id,$kolom_id,$sk_group_id) {
-    //     return $this->db->table('respon a')
-    //                     ->select('*,COUNT(respon_id) as jumlah_jawab')
-    //                     ->join('kolom_soal b','b.kolom_id = a.kolom_id')
-    //                     ->join('soal c','c.soal_id = a.soal_id')
-    //                     ->where('a.created_dttm >=', $start_dttm.' 00:00:00')
-    //                     ->where('a.created_dttm <=', $end_dttm.' 23:59:59')
-    //                     ->where('a.created_user_id',$user_id)
-    //                     ->where('a.kolom_id',$kolom_id)
-    //                     ->where('c.sk_group_id',$sk_group_id)
-    //                     ->where('c.group_id', 9)
-    //                     ->orderBy('a.created_dttm')
-    //                     // ->groupBy('a.kolom_id')
-    //                     // ->groupBy('c.sk_group_id')
-    //                     ->get(); 
-    // }
+                'COALESCE(SUM(CASE 
+                    WHEN r.pilihan_nm IS NULL OR r.pilihan_nm = "" 
+                    THEN 1 ELSE 0 
+                END),0) AS tidak_terjawab',
+
+                'COALESCE(SUM(CASE 
+                    WHEN r.pilihan_nm IS NOT NULL 
+                    AND r.pilihan_nm <> "" 
+                    AND r.pilihan_nm <> c.kunci 
+                    THEN 1 ELSE 0 
+                END),0) AS salah'
+            ])
+            ->join(
+                'soal c',
+                'c.kolom_id = k.kolom_id
+                AND c.group_id = 9
+                AND c.status_cd = "normal"
+                AND c.materi = '.$this->db->escape($materi_id).'
+                AND c.sk_group_id = '.$this->db->escape($sk_group_id),
+                'left'
+            )
+            ->join(
+                "($responSub) r",
+                'r.soal_id = c.soal_id',
+                'left'
+            )
+            ->groupBy('k.kolom_id')
+            ->orderBy('k.kolom_id', 'ASC')
+            ->get();
+    }
 
     public function getPauliSalah($start_dttm,$end_dttm,$user_id)
 {

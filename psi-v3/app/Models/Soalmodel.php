@@ -454,6 +454,15 @@ public function getAllSoalSK() {
                         ->get();
     }
 
+    public function getLastUsedPauli($user_id, $group_id, $materi) {
+        return $this->db->table('respon')
+            ->selectMax('used')
+            ->where('created_user_id', $user_id)
+            ->where('group_id', $group_id)
+            ->where('materi', $materi)
+            ->get();
+    }
+
 
     public function getPasshandSkor($user_id,$session,$materi) {
         if ($session == "") {
@@ -830,7 +839,7 @@ public function getAllSoalSK() {
                         ->get();
     }
 
-    public function getResponPauli($soal_id,$group_id,$materi,$user_id,$sk_group_id) {
+    public function getResponPauli($soal_id,$group_id,$materi,$user_id,$sk_group_id, $used) {
         return $this->db->table('respon a')
                         ->select('*')
                         ->join('soal b','b.soal_id=a.soal_id')
@@ -838,6 +847,7 @@ public function getAllSoalSK() {
                         ->where('a.group_id',$group_id)
                         ->where('a.materi',$materi)
                         ->where('a.created_user_id',$user_id)
+                        ->where('a.used', $used)
                         ->where('a.status_cd', 'normal')
                         ->where('b.sk_group_id',$sk_group_id)
                         ->get();
@@ -854,12 +864,13 @@ public function getAllSoalSK() {
                         ->update();
     }
 
-    public function updateResponPauli($soal_id,$group_id,$materi,$user_id,$sk_group_id,$data) {
+    public function updateResponPauli($soal_id,$group_id,$materi,$user_id,$sk_group_id, $used, $data) {
         return $this->db->table('respon')
                         ->set($data)
                         ->where('soal_id',$soal_id)
                         ->where('group_id',$group_id)
                         ->where('materi',$materi)
+                        ->where('used', $used)
                         ->where('created_user_id',$user_id)
                         ->update();
     }

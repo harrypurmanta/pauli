@@ -22,7 +22,7 @@ $session = \Config\Services::session();
                                 <a href='".base_url()."' class='nav-link'>Home</a>
                             </li>
                             <li class='nav-item'>
-                                <a href='".base_url()."/materi' class='nav-link'>Materi</a>
+                                <a href='".base_url()."/materi/pilihanmateri/1/9' class='nav-link'>Materi</a>
                             </li>
                         </ul>
                     </div>";
